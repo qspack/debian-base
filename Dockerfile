@@ -1,4 +1,9 @@
-FROM qnib/dplain-init
+ARG FROM_IMG_REGISTRY=docker.io
+ARG FROM_IMG_REPO=qnib
+ARG FROM_IMG_NAME="dplain-init"
+ARG FROM_IMG_TAG="latest"
+ARG FROM_IMG_HASH=""
+FROM ${FROM_IMG_REGISTRY}/${FROM_IMG_REPO}/${FROM_IMG_NAME}:${FROM_IMG_TAG}${FROM_IMG_HASH}
 
 RUN apt-get update \
  && apt-get install -y apt-transport-https automake lsb curl gcc g++ gnupg gfortran lbzip2 make patch python software-properties-common \
