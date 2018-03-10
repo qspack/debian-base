@@ -6,13 +6,12 @@ ARG FROM_IMG_HASH=""
 FROM ${FROM_IMG_REGISTRY}/${FROM_IMG_REPO}/${FROM_IMG_NAME}:${FROM_IMG_TAG}${FROM_IMG_HASH}
 
 RUN apt-get update \
- && apt-get install -y apt-transport-https automake lsb curl gcc g++ gnupg gfortran lbzip2 make patch python software-properties-common \
- && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
- && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
- && apt-get update \
- && apt-get install -y docker-ce
-RUN apt-get install -y wget \
- && mkdir -p /usr/local/src/spack/ \
+ && apt-get install -y automake lsb \
+            curl gcc g++ gnupg gfortran lbzip2 make patch python wget \
+ && mkdir -p /usr/bin/ \
+ && cd /usr/bin/\
+ && wget -qO - https://download.docker.com/linux/static/stable/x86_64/docker-17.12.1-ce.tgz |tar xfz -
+RUN mkdir -p /usr/local/src/spack/ \
  && wget -qO - https://github.com/spack/spack/archive/v0.10.0.tar.gz |tar xfz - -C /usr/local/src/spack/ --strip-component=1
 ENV PATH=${PATH}:/usr/local/src/spack/bin/
 CMD ["tail", "-f", "/dev/null"]
