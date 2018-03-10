@@ -1,7 +1,11 @@
 FROM qnib/dplain-init
 
 RUN apt-get update \
- && apt-get install -y automake curl gcc g++ gfortran lbzip2 make patch python docker
+ && apt-get install -y automake lsb curl gcc g++ gnupg gfortran lbzip2 make patch python software-properties-common \
+ && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - \
+ && add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+ && apt-get update \
+ && apt-get install -y docker-ce
 RUN apt-get install -y wget \
  && mkdir -p /usr/local/src/spack/ \
  && wget -qO - https://github.com/spack/spack/archive/v0.10.0.tar.gz |tar xfz - -C /usr/local/src/spack/ --strip-component=1
